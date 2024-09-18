@@ -12,7 +12,12 @@ export class AppComponent implements OnInit {
   title = 'schoolwork';
 
   public employees: Employee[] = [];
-  public editEmployee: any;
+  public editEmployee: any= {
+    name: '',
+    employeeCode: '',
+    email: '',
+    address: ''
+  };
   public deleteEmployee: any;
 
 
@@ -47,6 +52,7 @@ export class AppComponent implements OnInit {
     }
     if (mode === 'edit') {
       this.editEmployee = employee;
+      console.log(this.editEmployee)
       button.setAttribute('data-target', '#updateEmployeeModal');
     }
     if (mode === 'delete') {
@@ -73,8 +79,21 @@ export class AppComponent implements OnInit {
     this.employees = results;
   }
 
+   // Custom email validator function
+   public validateEmail(email: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(email);
+  }
+
   public onAddEmployee(addForm: NgForm): void {
     document.getElementById('add-employee-form')?.click();
+
+    if (!this.validateEmail(addForm.value.email)) {
+      console.error('Invalid email format');
+      return;
+    }
+
+
     this.employeeService.addEmployee(addForm.value).subscribe(
       (response: Employee) => {
         console.log(response);
