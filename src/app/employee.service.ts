@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { Employee } from './employee';
 
 @Injectable({
   providedIn: 'root' // This makes the service available application-wide
@@ -13,48 +14,20 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) { }
 
-//   // Get request example
   getAllEmployees(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/employees/all`)
   }
 
-//   // Post request example
-//   postData(data: any): Observable<any> {
-//     return this.http.post<any>(this.apiUrl, data)
-//       .pipe(
-//         catchError(this.handleError) // Error handling
-//       );
-//   }
+  public addEmployee(employee: Employee): Observable<Employee> {
+    return this.http.post<Employee>(`${this.apiUrl}/employees/add`, employee);
+  }
 
-//   // Put request example
-//   updateData(id: number, data: any): Observable<any> {
-//     const url = `${this.apiUrl}/${id}`;
-//     return this.http.put<any>(url, data)
-//       .pipe(
-//         catchError(this.handleError) // Error handling
-//       );
-//   }
+  public updateEmployee(employee: Employee): Observable<Employee> {
+    return this.http.put<Employee>(`${this.apiUrl}/employees/update`, employee);
+  }
 
-//   // Delete request example
-//   deleteData(id: number): Observable<any> {
-//     const url = `${this.apiUrl}/${id}`;
-//     return this.http.delete<any>(url)
-//       .pipe(
-//         catchError(this.handleError) // Error handling
-//       );
-//   }
+  public deleteEmployee(employeeId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/employees/delete/${employeeId}`);
+  }
 
-//   // Error handling method
-//   private handleError(error: HttpErrorResponse) {
-//     let errorMessage = 'Unknown error!';
-//     if (error.error instanceof ErrorEvent) {
-//       // Client-side error
-//       errorMessage = `Error: ${error.error.message}`;
-//     } else {
-//       // Server-side error
-//       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-//     }
-//     console.error(errorMessage);
-//     return throwError(errorMessage);
-//   }
 }
