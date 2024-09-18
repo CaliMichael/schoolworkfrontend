@@ -68,9 +68,6 @@ export class AppComponent implements OnInit {
   
     const results: Employee[] = this.allEmployees.filter((employee: Employee) =>
       employee.name.toLowerCase().includes(key.toLowerCase()) 
-      // employee.email?.toLowerCase().includes(key.toLowerCase()) ||
-      // employee.employeeCode.toLowerCase().includes(key.toLowerCase()) ||
-      // employee.address?.toLowerCase().includes(key.toLowerCase())
     );
   
     this.employees = results;
