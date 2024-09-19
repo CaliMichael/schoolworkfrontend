@@ -23,6 +23,8 @@ export class AppComponent implements OnInit {
 
   private allEmployees: Employee[] = []; // Store the original list
 
+  public employeeCodeExists = false; // Track if the employee code is unique
+
   ngOnInit() {
     this.getEmployees();
   }
@@ -124,6 +126,16 @@ export class AppComponent implements OnInit {
       //   alert(error.message);
       // }
     );
+  }
+
+  public checkUniqueEmployeeCode(value: string, currentEmployeeId?: string): void {
+    if (!value) {
+      this.employeeCodeExists = false;
+      return;
+    }
+    
+    this.employeeCodeExists = this.allEmployees.some(employee => employee.employeeCode === value &&  employee.id !== currentEmployeeId);
+    console.log(this.employeeCodeExists)
   }
 
 
