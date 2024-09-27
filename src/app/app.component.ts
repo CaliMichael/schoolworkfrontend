@@ -61,6 +61,9 @@ export class AppComponent implements OnInit {
       this.deleteEmployee = employee;
       button.setAttribute('data-target', '#deleteEmployeeModal');
     }
+    if (mode === 'batch') {
+      button.setAttribute('data-target', '#batchModal');
+    }
     container.appendChild(button);
     button.click();
   }
@@ -119,6 +122,17 @@ export class AppComponent implements OnInit {
 
   public onDeleteEmployee(employeeId: string): void {
     this.employeeService.deleteEmployee(employeeId).subscribe(
+      (response: void) => {
+        this.getEmployees();
+      },
+      // (error: HttpErrorResponse) => {
+      //   alert(error.message);
+      // }
+    );
+  }
+
+  public onExportList(): void {
+    this.employeeService.runJob().subscribe(
       (response: void) => {
         this.getEmployees();
       },

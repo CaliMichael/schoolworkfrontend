@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -11,6 +11,7 @@ import { Employee } from './employee';
 export class EmployeeService {
 
     private apiUrl = environment.apiUrl+"/api"; // Replace with your API endpoint
+    private batchApiUrl = environment.BatchApiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -28,6 +29,14 @@ export class EmployeeService {
 
   public deleteEmployee(employeeId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/employees/delete/${employeeId}`);
+  }
+
+  public runJob(): Observable<any> {
+    return this.http.post<any>(`${this.batchApiUrl}/run-job`, {}, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
 
 }
