@@ -16,7 +16,9 @@ export class AppComponent implements OnInit {
     name: '',
     employeeCode: '',
     email: '',
-    address: ''
+    address: '',
+    age:'',
+    salary:''
   };
   public deleteEmployee: any;
 
@@ -98,6 +100,16 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    if(!this.validateAge(addForm.value.age)){
+      console.error('Invalid age');
+      return;
+    }
+
+    if(!this.validateSalary(addForm.value.salary)){
+      console.error('Invalid salary');
+      return;
+    }
+
 
     this.employeeService.addEmployee(addForm.value).subscribe(
       (response: Employee) => {
@@ -151,6 +163,15 @@ export class AppComponent implements OnInit {
     this.employeeCodeExists = this.allEmployees.some(employee => employee.employeeCode === value &&  employee.id !== currentEmployeeId);
     console.log(this.employeeCodeExists)
   }
+
+  public validateAge(age: any): boolean {
+  return Number.isInteger(Number(age)) && age >= 0 && age <= 120;
+}
+
+public validateSalary(salary: any): boolean {
+  const num = Number(salary);
+  return !isNaN(num) && num > 0 && num <= 1000000;
+}
 
 
 
